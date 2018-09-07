@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -8,8 +8,8 @@ import {
   Dimensions,
   Platform,
   ScrollView
-} from 'react-native';
-import ToDo from "./ToDo"
+} from "react-native";
+import ToDo from "./ToDo";
 
 const { height, width } = Dimensions.get("window");
 
@@ -50,8 +50,8 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F23657',
-    alignItems: 'center',
+    backgroundColor: "#F23657",
+    alignItems: "center"
   },
   title: {
     color: "white",
