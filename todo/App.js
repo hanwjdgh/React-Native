@@ -51,6 +51,9 @@ export default class App extends React.Component {
                 <ToDo
                   key={toDo.id}
                   deleteToDo={this._deleteToDo}
+                  uncompleteToDo={this._uncompleteToDo}
+                  completeToDo={this._completeToDo}
+                  updateToDo={this._updateToDo}
                   {...toDo}
                 />
               ))}
@@ -90,9 +93,9 @@ export default class App extends React.Component {
             ...newToDoObject
           }
         };
-        //this._saveToDos(newState.toDos);
+        this._saveToDos(newState.toDos);
         return { ...newState };
-      })
+      });
     }
   };
   _deleteToDo = id => {
@@ -103,9 +106,54 @@ export default class App extends React.Component {
         ...prevState,
         ...toDos
       };
-      //this._saveToDos(newState.toDos);
+      this._saveToDos(newState.toDos);
       return { ...newState };
     });
+  };
+  _uncompleteToDo = id => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: {
+            ...prevState.toDos[id],
+            isCompleted: false
+          }
+        }
+      };
+      this._saveToDos(newState.toDos);
+      return { ...newState };
+    });
+  };
+  _completeToDo = id => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: { ...prevState.toDos[id], isCompleted: true }
+        }
+      };
+      this._saveToDos(newState.toDos);
+      return { ...newState };
+    });
+  };
+  _updateToDo = (id, text) => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: { ...prevState.toDos[id], text: text }
+        }
+      };
+      this._saveToDos(newState.toDos);
+      return { ...newState };
+    });
+  };
+  _saveToDos = newToDos => {
+    const saveToDos = AsyncStorage.setItem("toDos", JSON.stringify(newToDos));
   };
 }
 
