@@ -7,7 +7,8 @@ import {
   TextInput,
   Dimensions,
   Platform,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { AppLoading } from "expo";
 import ToDo from "./ToDo";
@@ -68,9 +69,13 @@ export default class App extends React.Component {
     });
   };
   _loadToDos = async () => {
-    this.setState({
-      loadedToDos: true
-    });
+    try {
+      const toDos = await AsyncStorage.getItem("toDos");
+      const parsedToDos = JSON.parse(toDos);
+      this.setState({ loadedToDos: true, toDos: parsedToDos || {} });
+    } catch (err) {
+      console.log(err);
+    }
   };
   _addToDo = () => {
     const { newToDo } = this.state;
